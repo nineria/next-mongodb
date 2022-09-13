@@ -1,14 +1,20 @@
-import { Badge, Box, Image } from '@chakra-ui/react';
+import { Badge, Box, Button, Center, Flex, Image } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import React, { Fragment } from 'react';
 
-export default function MeetupList({ meetups }) {
+export default function MeetupList(props) {
+  const router = useRouter();
+
+  const showDetailHandler = () => {
+    router.push('/' + props.id);
+  };
+
   return (
     <Fragment>
-      {meetups.map((meetup, index) => (
+      {props.meetups.map((meetup, index) => (
         <Box
           key={index}
           my={2}
-          maxW='sm'
           borderWidth='1px'
           borderRadius='lg'
           overflow='hidden'
@@ -42,6 +48,17 @@ export default function MeetupList({ meetups }) {
             </Box>
 
             <Box>{meetup.description}</Box>
+
+            <Flex justifyContent='end'>
+              <Button
+                onClick={showDetailHandler}
+                colorScheme='teal'
+                mt={2}
+                size='sm'
+              >
+                Read more
+              </Button>
+            </Flex>
           </Box>
         </Box>
       ))}
