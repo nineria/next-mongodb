@@ -1,6 +1,6 @@
 import { Container } from '@chakra-ui/react';
+import { MongoClient } from 'mongodb';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
 import MeetupList from '../components/meetup/MeetupList';
 import Navbar from '../components/navbar';
 
@@ -47,8 +47,27 @@ export default function Home(props) {
 // }
 
 export async function getStaticProps() {
+  // fetch data from api
+  const client = await MongoClient.connect(
+    'mongodb+srv://user-nineria:tUh1mj8hmOQLAM1N@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority'
+  );
+
+  const db = client.db();
+  const meetupsCollection = db.collection('meetups');
+
+  const meetups = await meetupsCollection.find().toArray();
+
+  client.close();
+
   return {
-    props: { meetups: DUMMY_MEETUPS },
+    props: {
+      meetups: meetups.map((meetup) => ({
+        id: meetup._id.toString(),
+        title: meetup.title,
+        image: meetup.image,
+        description: meetup.description,
+      })),
+    },
     revalidate: 3,
   };
 }
