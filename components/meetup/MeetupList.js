@@ -5,8 +5,8 @@ import React, { Fragment } from 'react';
 export default function MeetupList(props) {
   const router = useRouter();
 
-  const showDetailHandler = () => {
-    router.push('/' + props.id);
+  const showDetailHandler = (id) => {
+    router.push('/' + id);
   };
 
   return (
@@ -51,7 +51,7 @@ export default function MeetupList(props) {
 
             <Flex justifyContent='end'>
               <Button
-                onClick={showDetailHandler}
+                onClick={() => showDetailHandler(meetup.id)}
                 colorScheme='teal'
                 mt={2}
                 size='sm'

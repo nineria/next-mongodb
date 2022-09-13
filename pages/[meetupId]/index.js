@@ -2,7 +2,7 @@ import React from 'react';
 import MeetupDetail from '../../components/meetup/MeetupDetail';
 import Navbar from '../../components/navbar';
 
-export default function MeetupDetails(props) {
+export default function MeetupDetails() {
   return (
     <>
       <Navbar />
@@ -13,4 +13,38 @@ export default function MeetupDetails(props) {
       />
     </>
   );
+}
+
+export async function getStaticPaths() {
+  return {
+    fallback: false,
+    paths: [
+      {
+        params: {
+          meetupId: '1',
+        },
+      },
+      {
+        params: {
+          meetupId: '2',
+        },
+      },
+    ],
+  };
+}
+
+export async function getStaticProps(context) {
+  const meetupId = context.params.meetupId;
+
+  return {
+    props: {
+      meetupData: {
+        id: meetupId,
+        image:
+          'https://images.pexels.com/photos/3155666/pexels-photo-3155666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+        title: 'A First Meetup',
+        description: 'The meetup description',
+      },
+    },
+  };
 }

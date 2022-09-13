@@ -4,7 +4,6 @@ import { useRef } from 'react';
 function NewMeetupForm(props) {
   const titleInputRef = useRef();
   const imageInputRef = useRef();
-  const addressInputRef = useRef();
   const descriptionInputRef = useRef();
 
   function submitHandler(event) {
@@ -12,13 +11,11 @@ function NewMeetupForm(props) {
 
     const enteredTitle = titleInputRef.current.value;
     const enteredImage = imageInputRef.current.value;
-    const enteredAddress = addressInputRef.current.value;
     const enteredDescription = descriptionInputRef.current.value;
 
     const meetupData = {
       title: enteredTitle,
       image: enteredImage,
-      address: enteredAddress,
       description: enteredDescription,
     };
 
@@ -44,10 +41,6 @@ function NewMeetupForm(props) {
             <Box>
               <label htmlFor='image'>Meetup Image</label>
               <Input type='url' required id='image' ref={imageInputRef} />
-            </Box>
-            <Box>
-              <label htmlFor='address'>Address</label>
-              <Input type='text' required id='address' ref={addressInputRef} />
             </Box>
             <Box>
               <label htmlFor='description'>Description</label>
