@@ -67,7 +67,7 @@ function NewMeetupForm(props) {
             </Box>
             <Center>
               <Button type='submit' colorScheme='pink'>
-                Add Meetup
+                Add
               </Button>
             </Center>
           </Flex>

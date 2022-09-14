@@ -57,7 +57,7 @@ export default function MeetupDetail(props) {
           <Box p='6'>
             <Box display='flex' alignItems='baseline'>
               <Box
-                color='gray.500'
+                color={useColorModeValue('blackAlpha.500', 'whiteAlpha.500')}
                 fontWeight='semibold'
                 letterSpacing='wide'
                 fontSize='xs'
