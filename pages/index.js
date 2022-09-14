@@ -47,6 +47,7 @@ export async function getStaticProps() {
         title: meetup.title,
         image: meetup.image,
         description: meetup.description,
+        createdAt: parseFloat(meetup.createdAt),
       })),
     },
     revalidate: 3,

@@ -1,25 +1,27 @@
+import { AddIcon } from '@chakra-ui/icons';
 import {
   Box,
+  Center,
   Container,
-  Flex,
   Heading,
+  IconButton,
   Link,
+  Spacer,
   useColorModeValue,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import React from 'react';
+import { AiFillHome } from 'react-icons/ai';
+import ToggleThemeButton from './toggle-theme-button';
 
 const LinkItem = ({ path, href, children }) => {
   const active = path === href;
-  console.log(path, '==', href);
-  const inactiveColor = useColorModeValue('gray.200', 'whiteAlpha.900');
-  const activeBgColor = useColorModeValue('purple.400', 'red.400');
+  const inactiveColor = useColorModeValue('blackAlpha', 'whiteAlpha');
   return (
     <NextLink href={href}>
       <Link
-        p={2}
-        bg={active ? activeBgColor : undefined}
-        color={active ? 'white' : inactiveColor}
+        // bg={active ? 'pink.600' : undefined}
+        color={active ? 'blackAlpha' : inactiveColor}
       >
         {children}
       </Link>
@@ -47,15 +49,33 @@ export default function Navbar(props) {
         alignItems='center'
         justifyContent='space-between'
       >
-        <Heading>Next.js with MongoDB</Heading>
-        <Flex flexDir='row' gap={5}>
-          <LinkItem path={path} href='/'>
-            Home page
-          </LinkItem>
-          <LinkItem path={path} href='/new-meetup'>
-            Add more post
-          </LinkItem>
-        </Flex>
+        <NextLink href='/'>
+          <Heading cursor='pointer'>Next.js with MongoDB</Heading>
+        </NextLink>
+        <Center>
+          <Box>
+            <LinkItem path={path} href='/home'>
+              <IconButton
+                icon={<AiFillHome />}
+                bgColor={useColorModeValue('blackAlpha.200', 'whiteAlpha.100')}
+                roundedLeft='md'
+                rounded='none'
+              />
+            </LinkItem>
+            <LinkItem path={path} href='/new-meetup'>
+              <IconButton
+                icon={<AddIcon />}
+                bgColor={useColorModeValue('blackAlpha.200', 'whiteAlpha.100')}
+                roundedRight='md'
+                rounded='none'
+              >
+                <AddIcon />
+              </IconButton>
+            </LinkItem>
+          </Box>
+          <Spacer mx={2} />
+          <ToggleThemeButton />
+        </Center>
       </Container>
     </Box>
   );

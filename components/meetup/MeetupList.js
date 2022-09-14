@@ -16,7 +16,8 @@ export default function MeetupList(props) {
     router.push('/' + id);
   };
 
-  const BadgeColorScheme = useColorModeValue('green', 'teal');
+  const BadgeColorScheme = useColorModeValue('pink', 'teal');
+  const BgColorTheme = useColorModeValue('#fff', '#222');
 
   return (
     <Fragment>
@@ -27,6 +28,7 @@ export default function MeetupList(props) {
           borderWidth='1px'
           borderRadius='md'
           overflow='hidden'
+          bgColor={BgColorTheme}
         >
           <Image src={meetup.image} alt={meetup.image} />
           <Box p='6'>
@@ -42,7 +44,11 @@ export default function MeetupList(props) {
                 textTransform='uppercase'
                 ml='2'
               >
-                {new Date().toISOString().slice(0, 10)}
+                {new Date(meetup.createdAt).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
               </Box>
             </Box>
 
@@ -61,9 +67,8 @@ export default function MeetupList(props) {
             <Flex justifyContent='end'>
               <Button
                 onClick={() => showDetailHandler(meetup.id)}
-                colorScheme='teal'
+                colorScheme='gray'
                 mt={2}
-                size='sm'
               >
                 Read more
               </Button>

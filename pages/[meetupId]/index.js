@@ -1,15 +1,16 @@
 import { MongoClient, ObjectId } from 'mongodb';
 import React from 'react';
 import MeetupDetail from '../../components/meetup/MeetupDetail';
-import Navbar from '../../components/navbar';
 
 export default function MeetupDetails(props) {
   return (
     <>
       <MeetupDetail
+        id={props.meetupData.id}
         image={props.meetupData.image}
         title={props.meetupData.title}
         description={props.meetupData.description}
+        createdAt={props.meetupData.createdAt}
       />
     </>
   );
@@ -60,6 +61,7 @@ export async function getStaticProps(context) {
         title: selectedMeetup.title,
         image: selectedMeetup.image,
         description: selectedMeetup.description,
+        createdAt: parseFloat(selectedMeetup.createdAt),
       },
     },
   };

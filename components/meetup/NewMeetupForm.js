@@ -1,4 +1,13 @@
-import { Box, Button, Center, Flex, Input, Textarea } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Heading,
+  Input,
+  Textarea,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { useRef } from 'react';
 
 function NewMeetupForm(props) {
@@ -17,29 +26,34 @@ function NewMeetupForm(props) {
       title: enteredTitle,
       image: enteredImage,
       description: enteredDescription,
+      createdAt: Date.now(),
     };
 
     props.onAddMeetup(meetupData);
   }
 
+  const BgColorTheme = useColorModeValue('#fff', '#222');
+
   return (
     <Box
-      bgColor='#222'
-      px={2}
-      py={4}
       my={2}
-      rounded='md'
-      border='2px solid #999'
+      borderWidth='1px'
+      borderRadius='md'
+      overflow='hidden'
+      bgColor={BgColorTheme}
     >
+      <Heading mt={5} size='md' textAlign='center'>
+        Add New Post!
+      </Heading>
       <Flex justifyContent='center'>
         <form onSubmit={submitHandler}>
-          <Flex flexDir='column' gap={2}>
+          <Flex flexDir='column' style={{ gap: 10 }} py={10}>
             <Box>
-              <label htmlFor='title'>Meetup Title</label>
+              <label htmlFor='title'>Title</label>
               <Input type='text' required id='title' ref={titleInputRef} />
             </Box>
             <Box>
-              <label htmlFor='image'>Meetup Image</label>
+              <label htmlFor='image'>Image</label>
               <Input type='url' required id='image' ref={imageInputRef} />
             </Box>
             <Box>
