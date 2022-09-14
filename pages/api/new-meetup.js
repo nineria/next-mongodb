@@ -5,8 +5,6 @@ export default async function handler(req, res) {
   switch (req.method) {
     case 'POST':
       const data = req.body;
-      //   const { title, image, description } = data;
-
       const client = await MongoClient.connect(
         'mongodb+srv://user-nineria:tUh1mj8hmOQLAM1N@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority'
       );

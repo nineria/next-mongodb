@@ -6,7 +6,6 @@ import Navbar from '../../components/navbar';
 export default function MeetupDetails(props) {
   return (
     <>
-      <Navbar />
       <MeetupDetail
         image={props.meetupData.image}
         title={props.meetupData.title}

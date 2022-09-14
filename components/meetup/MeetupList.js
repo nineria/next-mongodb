@@ -1,4 +1,11 @@
-import { Badge, Box, Button, Center, Flex, Image } from '@chakra-ui/react';
+import {
+  Badge,
+  Box,
+  Button,
+  Flex,
+  Image,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { Fragment } from 'react';
 
@@ -9,6 +16,8 @@ export default function MeetupList(props) {
     router.push('/' + id);
   };
 
+  const BadgeColorScheme = useColorModeValue('green', 'teal');
+
   return (
     <Fragment>
       {props.meetups.map((meetup, index) => (
@@ -16,13 +25,13 @@ export default function MeetupList(props) {
           key={index}
           my={2}
           borderWidth='1px'
-          borderRadius='lg'
+          borderRadius='md'
           overflow='hidden'
         >
           <Image src={meetup.image} alt={meetup.image} />
           <Box p='6'>
             <Box display='flex' alignItems='baseline'>
-              <Badge borderRadius='full' px='2' colorScheme='teal'>
+              <Badge borderRadius='full' px='2' colorScheme={BadgeColorScheme}>
                 New
               </Badge>
               <Box

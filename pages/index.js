@@ -2,29 +2,10 @@ import { Container } from '@chakra-ui/react';
 import { MongoClient } from 'mongodb';
 import Head from 'next/head';
 import MeetupList from '../components/meetup/MeetupList';
-import Navbar from '../components/navbar';
-
-const DUMMY_MEETUPS = [
-  {
-    id: '1',
-    title: 'First',
-    image:
-      'https://images.pexels.com/photos/3155666/pexels-photo-3155666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    description: 'Description',
-  },
-  {
-    id: '2',
-    title: 'Second',
-    image:
-      'https://images.pexels.com/photos/3155666/pexels-photo-3155666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    description: 'Description',
-  },
-];
 
 export default function Home(props) {
   return (
     <>
-      <Navbar />
       <Container maxW='container.sm'>
         <Head>
           <title>Create Next App</title>

@@ -9,10 +9,10 @@ const LinkStyle = styled.a`
   }
 `;
 
-const NextLink = ({ href, children }) => (
+const NavLink = ({ href, children }) => (
   <Link href={href}>
-    <LinkStyle>{children}</LinkStyle>
+    <LinkStyle props>{children}</LinkStyle>
   </Link>
 );
 
-export default NextLink;
+export default NavLink;

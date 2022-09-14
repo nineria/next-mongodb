@@ -16,7 +16,7 @@ export default function MeetupDetail(props) {
   return (
     <Fragment>
       <Container maxW='container.sm'>
-        <Box bgColor='#222' pb={4} rounded='md' my={2}>
+        <Box bgColor='#222' pb={4} rounded='md' my={2} borderWidth='1px'>
           <Image src={props.image} alt={props.image} roundedTop='md' />
           <Heading textAlign='center' my={4}>
             {props.title}
