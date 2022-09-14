@@ -3,7 +3,7 @@ import { MongoClient } from 'mongodb';
 import Head from 'next/head';
 import MeetupList from '../components/meetup/MeetupList';
 
-export default function Home(props) {
+export default function HomePage(props) {
   return (
     <>
       <Container maxW='container.sm'>

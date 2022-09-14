@@ -5,32 +5,43 @@ import {
   Flex,
   Heading,
   Image,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Text,
   useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { Fragment } from 'react';
 
 export default function MeetupDetail(props) {
+  const BgColorTheme = useColorModeValue('#fff', '#222');
+
   const router = useRouter();
 
   const deleteHandler = async () => {
-    const response = await fetch('/api/new-meetup', {
-      method: 'DELETE',
-      body: JSON.stringify(props),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    try {
+      const response = await fetch('/api/new-meetup', {
+        method: 'DELETE',
+        body: JSON.stringify({ _id: props.id }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    console.log(data);
-
-    router.replace('/'); // User can't go back to previous page
+      console.log(data);
+    } catch (error) {
+      console.log(props.id, error);
+    } finally {
+      router.replace('/'); // User can't go back to previous page
+    }
   };
-
-  const BgColorTheme = useColorModeValue('#fff', '#222');
 
   return (
     <Fragment>
@@ -70,13 +81,57 @@ export default function MeetupDetail(props) {
               <Button onClick={() => router.back()} colorScheme='gray'>
                 Back
               </Button>
-              <Button onClick={() => deleteHandler()} colorScheme='red'>
-                Delete
-              </Button>
+
+              <ButtonDeleteModal deleteHandler={deleteHandler} />
             </Flex>
           </Box>
         </Box>
       </Container>
     </Fragment>
+  );
+}
+
+function ButtonDeleteModal({ deleteHandler }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  return (
+    <>
+      <Button
+        onClick={onOpen}
+        colorScheme='red'
+        bgColor='red.400'
+        color='white'
+      >
+        Delete
+      </Button>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent
+          bgColor={useColorModeValue('whiteAlpha.900', '#222')}
+          color={useColorModeValue('#222', 'whiteAlpha.900')}
+        >
+          <ModalHeader>Confirm Delete</ModalHeader>
+          {/* <ModalCloseButton /> */}
+          <ModalBody>
+            Are you sure you want to delete this post? You will lost this post
+            you delete.
+          </ModalBody>
+
+          <ModalFooter>
+            <Button variant='ghost' mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button
+              onClick={() => deleteHandler()}
+              colorScheme='red'
+              bgColor='red.400'
+              color='white'
+            >
+              Delete
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 }

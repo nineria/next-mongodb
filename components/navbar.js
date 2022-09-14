@@ -16,14 +16,20 @@ import ToggleThemeButton from './toggle-theme-button';
 
 const LinkItem = ({ path, href, children }) => {
   const active = path === href;
-  const inactiveColor = useColorModeValue('blackAlpha', 'whiteAlpha');
+  const activeTheme = useColorModeValue('blackAlpha.500', 'blackAlpha.800');
+  const inActiveTheme = useColorModeValue('blackAlpha.200', 'whiteAlpha.200');
+  const onHoverTheme = useColorModeValue('blackAlpha.200', 'blackAlpha.400');
   return (
     <NextLink href={href}>
-      <Link
-        // bg={active ? 'pink.600' : undefined}
-        color={active ? 'blackAlpha' : inactiveColor}
-      >
-        {children}
+      <Link color={active ? 'white' : 'whiteAlpha'}>
+        <IconButton
+          icon={children}
+          bgColor={active ? activeTheme : inActiveTheme}
+          _hover={{
+            bgColor: onHoverTheme,
+          }}
+          rounded='none'
+        />
       </Link>
     </NextLink>
   );
@@ -54,23 +60,11 @@ export default function Navbar(props) {
         </NextLink>
         <Center>
           <Box>
-            <LinkItem path={path} href='/home'>
-              <IconButton
-                icon={<AiFillHome />}
-                bgColor={useColorModeValue('blackAlpha.200', 'whiteAlpha.100')}
-                roundedLeft='md'
-                rounded='none'
-              />
+            <LinkItem path={path} href='/'>
+              <AiFillHome />
             </LinkItem>
             <LinkItem path={path} href='/new-meetup'>
-              <IconButton
-                icon={<AddIcon />}
-                bgColor={useColorModeValue('blackAlpha.200', 'whiteAlpha.100')}
-                roundedRight='md'
-                rounded='none'
-              >
-                <AddIcon />
-              </IconButton>
+              <AddIcon />
             </LinkItem>
           </Box>
           <Spacer mx={2} />

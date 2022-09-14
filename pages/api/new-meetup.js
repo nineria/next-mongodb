@@ -19,7 +19,6 @@ export default async function handler(req, res) {
         res.status(201).json({ message: 'Inserted to database!' });
       } catch (err) {
         console.log(err);
-        await client.close();
       } finally {
         await client.close();
       }
@@ -28,23 +27,18 @@ export default async function handler(req, res) {
 
     case 'DELETE':
       try {
-        const query = { _id: ObjectId(req.body.id) };
+        const query = { _id: ObjectId(req.body._id) };
         const result = await meetupsCollection.deleteOne(query);
 
         if (result.deletedCount === 1) {
-          res
-            .status(202)
-            .json({ message: 'Successfully deleted one document.' });
+          res.status(202).json({ message: 'Successfully deleted!' });
         } else {
-          res
-            .status(204)
-            .json({
-              message: 'No documents matched the query. Deleted 0 documents!',
-            });
+          res.status(204).json({
+            message: `No documents matched the ${query}. Deleted 0 documents!`,
+          });
         }
       } catch (err) {
         console.log(err);
-        await client.close();
       } finally {
         await client.close();
       }
