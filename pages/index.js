@@ -18,13 +18,30 @@ export default function HomePage(props) {
   );
 }
 
-// export async function getServerSideProps(context) {
-//   const req = context.req;
-//   const res = context.res;
+// export async function getServerSideProps() {
+//   // fetch data from api
+//   const client = await MongoClient.connect(
+//     'mongodb+srv://user-nineria:tUh1mj8hmOQLAM1N@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority'
+//   );
 
-//   fetch data from API
+//   const db = client.db();
+//   const meetupsCollection = db.collection('meetups');
 
-//   return { props: { meetups: DUMMY_MEETUPS } };
+//   const meetups = await meetupsCollection.find().toArray();
+
+//   client.close();
+
+//   return {
+//     props: {
+//       meetups: meetups.map((meetup) => ({
+//         id: meetup._id.toString(),
+//         title: meetup.title,
+//         image: meetup.image,
+//         description: meetup.description,
+//         createdAt: parseFloat(meetup.createdAt),
+//       })),
+//     },
+//   };
 // }
 
 export async function getStaticProps() {
