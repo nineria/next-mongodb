@@ -1,30 +1,41 @@
 import { Container } from '@chakra-ui/react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
+import LoadingOverlay from '../../components/loadingOverlay';
 import NewMeetupForm from '../../components/meetup/NewMeetupForm';
 
 const NewMeetupPage: NextPage = () => {
   const router = useRouter();
+
+  const [loading, setLoading] = useState<boolean>(false);
   const addMeetupHandler = async (meetupData) => {
-    const response = await fetch('/api/new-meetup', {
-      method: 'POST',
-      body: JSON.stringify(meetupData),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    setLoading(true);
+    try {
+      const response = await fetch('/api/new-meetup', {
+        method: 'POST',
+        body: JSON.stringify(meetupData),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    console.log(data);
-
-    router.replace('/'); // User can't go back to previous page
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+      router.replace('/');
+    }
   };
 
   return (
     <Container maxW='container.sm'>
-      <NewMeetupForm onAddMeetup={addMeetupHandler} />
+      <LoadingOverlay loading={loading}>
+        <NewMeetupForm onAddMeetup={addMeetupHandler} />
+      </LoadingOverlay>
     </Container>
   );
 };

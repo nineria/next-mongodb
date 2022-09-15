@@ -1,6 +1,6 @@
 import { Container } from '@chakra-ui/react';
 import { MongoClient } from 'mongodb';
-import { GetStaticProps, NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import MeetupList from '../components/meetup/MeetupList';
 
@@ -29,33 +29,7 @@ const HomePage: NextPage = (props: meetupPropsType) => {
   );
 };
 
-// export async function getServerSideProps() {
-//   // fetch data from api
-//   const client = await MongoClient.connect(
-//     'mongodb+srv://user-nineria:tUh1mj8hmOQLAM1N@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority'
-//   );
-
-//   const db = client.db();
-//   const meetupsCollection = db.collection('meetups');
-
-//   const meetups = await meetupsCollection.find().toArray();
-
-//   client.close();
-
-//   return {
-//     props: {
-//       meetups: meetups.map((meetup) => ({
-//         id: meetup._id.toString(),
-//         title: meetup.title,
-//         image: meetup.image,
-//         description: meetup.description,
-//         createdAt: parseFloat(meetup.createdAt),
-//       })),
-//     },
-//   };
-// }
-
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   // fetch data from api
   const client = await MongoClient.connect(
     'mongodb+srv://user-nineria:tUh1mj8hmOQLAM1N@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority'
@@ -78,8 +52,34 @@ export const getStaticProps: GetStaticProps = async () => {
         createdAt: parseFloat(meetup.createdAt),
       })),
     },
-    revalidate: 3,
   };
 };
+
+// export const getStaticProps: GetStaticProps = async () => {
+//   // fetch data from api
+//   const client = await MongoClient.connect(
+//     'mongodb+srv://user-nineria:tUh1mj8hmOQLAM1N@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority'
+//   );
+
+//   const db = client.db();
+//   const meetupsCollection = db.collection('meetups');
+
+//   const meetups = await meetupsCollection.find().toArray();
+
+//   client.close();
+
+//   return {
+//     props: {
+//       meetups: meetups.map((meetup) => ({
+//         id: meetup._id.toString(),
+//         title: meetup.title,
+//         image: meetup.image,
+//         description: meetup.description,
+//         createdAt: parseFloat(meetup.createdAt),
+//       })),
+//     },
+//     revalidate: 3,
+//   };
+// };
 
 export default HomePage;
