@@ -1,13 +1,11 @@
-import { Box, Center, Spinner, useColorModeValue } from '@chakra-ui/react';
+import { Box, Center, Spinner } from '@chakra-ui/react';
 import React from 'react';
 
 export default function LoadingOverlay({ loading, children }) {
-  const bgColorTheme = useColorModeValue('#eee', '#333');
-
   return (
-    <Box pos='relative' bg={bgColorTheme} rounded='md'>
+    <Box pos='relative' rounded='md'>
       {loading ? (
-        <Box opacity={loading ? 0.5 : 1}>
+        <Box opacity={0.5}>
           <Center
             pos='absolute'
             w='full'

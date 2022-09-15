@@ -1,8 +1,10 @@
 import {
+  AspectRatio,
   Badge,
   Box,
   Button,
   Flex,
+  Heading,
   Image,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -16,24 +18,32 @@ export default function MeetupList(props) {
     router.push('/' + id);
   };
 
-  const BadgeColorScheme = useColorModeValue('pink', 'teal');
-  const BgColorTheme = useColorModeValue('#fff', '#222');
+  const BgColorTheme = useColorModeValue('whiteAlpha.600', 'whiteAlpha.100');
+  const ButtonBgColorTheme = useColorModeValue(
+    'blackAlpha.200',
+    'whiteAlpha.200'
+  );
+  const ButtonColorScheme = useColorModeValue('whiteAlpha', 'blackAlpha');
 
   return (
     <Fragment>
       {props.meetups.map((meetup, index) => (
         <Box
           key={index}
-          my={2}
+          mt={2}
+          mb={8}
           borderWidth='1px'
           borderRadius='md'
           overflow='hidden'
           bgColor={BgColorTheme}
+          pos='relative'
         >
-          <Image src={meetup.image} alt={meetup.image} />
-          <Box p='6'>
+          <AspectRatio ratio={16 / 9}>
+            <Image src={meetup.image} alt={meetup.image} />
+          </AspectRatio>
+          <Box p={6}>
             <Box display='flex' alignItems='baseline'>
-              <Badge borderRadius='full' px='2' colorScheme={BadgeColorScheme}>
+              <Badge px='2' colorScheme='red' variant='solid'>
                 New
               </Badge>
               <Box
@@ -52,23 +62,28 @@ export default function MeetupList(props) {
               </Box>
             </Box>
 
-            <Box
+            <Heading
               mt='1'
               fontWeight='semibold'
-              as='h4'
               lineHeight='tight'
+              size='lg'
               noOfLines={1}
             >
               {meetup.title}
-            </Box>
+            </Heading>
 
-            <Box>{meetup.description}</Box>
+            <Box opacity={0.8}>{meetup.description}</Box>
 
-            <Flex justifyContent='end'>
+            <Flex pb={6}>
               <Button
                 onClick={() => showDetailHandler(meetup.id)}
-                colorScheme='gray'
-                mt={2}
+                bgColor={ButtonBgColorTheme}
+                colorScheme={ButtonColorScheme}
+                color='whiteAlpha'
+                pos='absolute'
+                bottom={2}
+                right={2}
+                variant='solid'
               >
                 Read more
               </Button>

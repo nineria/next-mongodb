@@ -16,17 +16,15 @@ import ToggleThemeButton from './toggle-theme-button';
 
 const LinkItem = ({ path, href, children }) => {
   const active = path === href;
-  const activeTheme = useColorModeValue('blackAlpha.500', 'blackAlpha.800');
   const inActiveTheme = useColorModeValue('blackAlpha.200', 'whiteAlpha.200');
-  const onHoverTheme = useColorModeValue('blackAlpha.200', 'blackAlpha.400');
   return (
     <NextLink href={href}>
       <Link color={active ? 'white' : 'whiteAlpha'}>
         <IconButton
           icon={children}
-          bgColor={active ? activeTheme : inActiveTheme}
+          bgColor={active ? 'blackAlpha.400' : inActiveTheme}
           _hover={{
-            bgColor: onHoverTheme,
+            bgColor: 'blackAlpha.400',
           }}
           rounded='none'
           aria-label='active icon'

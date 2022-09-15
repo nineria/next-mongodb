@@ -20,7 +20,7 @@ import React, { Fragment, useState } from 'react';
 import LoadingOverlay from '../loadingOverlay';
 
 export default function MeetupDetail(props) {
-  const BgColorTheme = useColorModeValue('#fff', '#222');
+  const BgColorTheme = useColorModeValue('whiteAlpha.600', 'whiteAlpha.100');
 
   const router = useRouter();
 
@@ -44,6 +44,7 @@ export default function MeetupDetail(props) {
                 fontSize='xs'
                 textTransform='uppercase'
               >
+                Created At •{' '}
                 {new Date(props.createdAt).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
