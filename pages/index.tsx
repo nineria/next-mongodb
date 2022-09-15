@@ -1,9 +1,20 @@
 import { Container } from '@chakra-ui/react';
 import { MongoClient } from 'mongodb';
+import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
 import MeetupList from '../components/meetup/MeetupList';
 
-export default function HomePage(props) {
+interface meetupPropsType {
+  meetups: {
+    id: string;
+    title: string;
+    image: string;
+    description: string;
+    createdAt: string;
+  };
+}
+
+const HomePage: NextPage = (props: meetupPropsType) => {
   return (
     <>
       <Container maxW='container.sm'>
@@ -16,7 +27,7 @@ export default function HomePage(props) {
       </Container>
     </>
   );
-}
+};
 
 // export async function getServerSideProps() {
 //   // fetch data from api
@@ -44,7 +55,7 @@ export default function HomePage(props) {
 //   };
 // }
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async () => {
   // fetch data from api
   const client = await MongoClient.connect(
     'mongodb+srv://user-nineria:tUh1mj8hmOQLAM1N@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority'
@@ -69,4 +80,6 @@ export async function getStaticProps() {
     },
     revalidate: 3,
   };
-}
+};
+
+export default HomePage;

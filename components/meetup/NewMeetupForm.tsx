@@ -11,9 +11,9 @@ import {
 import { useRef } from 'react';
 
 function NewMeetupForm(props) {
-  const titleInputRef = useRef();
-  const imageInputRef = useRef();
-  const descriptionInputRef = useRef();
+  const titleInputRef = useRef<any>();
+  const imageInputRef = useRef<any>();
+  const descriptionInputRef = useRef<any>();
 
   function submitHandler(event) {
     event.preventDefault();
@@ -61,7 +61,7 @@ function NewMeetupForm(props) {
               <Textarea
                 id='description'
                 required
-                rows='5'
+                rows={5}
                 ref={descriptionInputRef}
               />
             </Box>

@@ -4,7 +4,7 @@ import React from 'react';
 export default function Footer() {
   return (
     <Stack my={8}>
-      <Box align='center' opacity={0.4} fontSize='sm'>
+      <Box textAlign='center' opacity={0.4} fontSize='sm'>
         &copy; {new Date().getFullYear()} Tewarit Jantarasorn. All Rights
         Reserved.
       </Box>

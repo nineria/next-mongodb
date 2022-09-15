@@ -29,6 +29,7 @@ const LinkItem = ({ path, href, children }) => {
             bgColor: onHoverTheme,
           }}
           rounded='none'
+          aria-label='active icon'
         />
       </Link>
     </NextLink>

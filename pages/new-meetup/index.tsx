@@ -1,9 +1,10 @@
 import { Container } from '@chakra-ui/react';
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
 import NewMeetupForm from '../../components/meetup/NewMeetupForm';
 
-export default function NewMeetupPage() {
+const NewMeetupPage: NextPage = () => {
   const router = useRouter();
   const addMeetupHandler = async (meetupData) => {
     const response = await fetch('/api/new-meetup', {
@@ -26,4 +27,6 @@ export default function NewMeetupPage() {
       <NewMeetupForm onAddMeetup={addMeetupHandler} />
     </Container>
   );
-}
+};
+
+export default NewMeetupPage;

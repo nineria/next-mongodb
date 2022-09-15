@@ -1,7 +1,11 @@
 // api/new-meetup
 import { MongoClient, ObjectId } from 'mongodb';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const data = req.body;
   const client = await MongoClient.connect(
     'mongodb+srv://user-nineria:tUh1mj8hmOQLAM1N@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority'
@@ -27,6 +31,7 @@ export default async function handler(req, res) {
 
     case 'DELETE':
       try {
+        // @ts-ignore
         const query = { _id: ObjectId(req.body._id) };
         const result = await meetupsCollection.deleteOne(query);
 
