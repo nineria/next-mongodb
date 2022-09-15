@@ -14,6 +14,7 @@ import {
   Text,
   useColorModeValue,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import React, { Fragment, useState } from 'react';
@@ -64,6 +65,7 @@ export default function MeetupDetail(props) {
                 Back
               </Button>
               <ButtonDeleteModal id={props.id} />
+              <ButtonUpdateModal props={props} />
             </Flex>
           </Box>
         </Box>
@@ -77,11 +79,12 @@ function ButtonDeleteModal({ id }) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();
+  const toast = useToast();
 
   const deleteHandler = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/new-meetup', {
+      await fetch('/api/new-meetup', {
         method: 'DELETE',
         body: JSON.stringify({ _id: id }),
         headers: {
@@ -89,10 +92,20 @@ function ButtonDeleteModal({ id }) {
         },
       });
 
-      const data = await response.json();
-      console.log(data);
+      toast({
+        title: 'Post deleted.',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
     } catch (error) {
-      console.log(error);
+      toast({
+        title: 'Error.',
+        description: error.toString(),
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
     } finally {
       setLoading(false);
       router.replace('/'); // User can't go back to previous page
@@ -135,6 +148,96 @@ function ButtonDeleteModal({ id }) {
                 color='white'
               >
                 Delete
+              </Button>
+            </ModalFooter>
+          </LoadingOverlay>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
+
+function ButtonUpdateModal({ props }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const router = useRouter();
+  const toast = useToast();
+
+  const updateHandler = async () => {
+    setLoading(true);
+
+    try {
+      const response = await fetch('/api/new-meetup', {
+        method: 'PUT',
+        // @ts-ignore
+        body: JSON.stringify(props),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+
+      console.log(data);
+
+      toast({
+        title: 'Post updated.',
+        description: data.message,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: error.toString(),
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+      router.reload();
+    }
+  };
+
+  return (
+    <>
+      <Button
+        onClick={onOpen}
+        colorScheme='green'
+        bgColor='green.400'
+        color='white'
+      >
+        Update
+      </Button>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent
+          bgColor={useColorModeValue('whiteAlpha.900', '#222')}
+          color={useColorModeValue('#222', 'whiteAlpha.900')}
+        >
+          <LoadingOverlay loading={loading}>
+            <ModalHeader>Confirm Delete</ModalHeader>
+            {/* <ModalCloseButton /> */}
+            <ModalBody>
+              Are you sure you want to delete this post? You will lost this post
+              if you delete it.
+            </ModalBody>
+
+            <ModalFooter>
+              <Button variant='ghost' mr={3} onClick={onClose}>
+                Close
+              </Button>
+              <Button
+                onClick={() => updateHandler()}
+                colorScheme='green'
+                bgColor='green.400'
+                color='white'
+              >
+                Update
               </Button>
             </ModalFooter>
           </LoadingOverlay>

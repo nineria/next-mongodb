@@ -21,8 +21,38 @@ export default async function handler(
         const result = await meetupsCollection.insertOne(data);
         console.log(result);
         res.status(201).json({ message: 'Inserted to database!' });
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        await client.close();
+      }
+
+      break;
+
+    case 'PUT':
+      try {
+        console.log(req.body);
+
+        // @ts-ignore
+        const filter = { _id: ObjectId(req.body.id) };
+        const options = { upsert: false };
+
+        const updateDoc = {
+          $set: {
+            title: req.body.title,
+            image: req.body.image,
+            description: req.body.description,
+            createdAt: Date.now(),
+          },
+        };
+
+        await meetupsCollection.updateOne(filter, updateDoc, options);
+        res.status(202).json({ message: 'Successfully updated!' });
+      } catch (error) {
+        res.status(204).json({
+          message: error.toString(),
+        });
+        console.log(error);
       } finally {
         await client.close();
       }
@@ -35,15 +65,13 @@ export default async function handler(
         const query = { _id: ObjectId(req.body._id) };
         const result = await meetupsCollection.deleteOne(query);
 
-        if (result.deletedCount === 1) {
+        if (result.deletedCount === 1)
           res.status(202).json({ message: 'Successfully deleted!' });
-        } else {
-          res.status(204).json({
-            message: `No documents matched the ${query}. Deleted 0 documents!`,
-          });
-        }
-      } catch (err) {
-        console.log(err);
+      } catch (error) {
+        res.status(204).json({
+          message: `No documents matched. Deleted 0 documents!`,
+        });
+        console.log(error);
       } finally {
         await client.close();
       }
