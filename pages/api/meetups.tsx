@@ -2,6 +2,9 @@
 import { MongoClient } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 
+const URI =
+  'mongodb+srv://user-nineria:8PP7NdR6DPD80Gu9@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority';
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -11,15 +14,11 @@ export default async function handler(
       const data = req.body;
       //   const { title, image, description } = data;
 
-      const client = await MongoClient.connect(
-        'mongodb+srv://user-nineria:tUh1mj8hmOQLAM1N@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority'
-      );
+      const client = await MongoClient.connect(URI);
 
       const db = client.db();
       const meetupsCollection = db.collection('meetups');
-      const result = await meetupsCollection.insertOne(data);
-
-      console.log(result);
+      await meetupsCollection.insertOne(data);
 
       client.close();
 
