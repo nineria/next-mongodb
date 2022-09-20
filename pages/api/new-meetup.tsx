@@ -2,8 +2,7 @@
 import { MongoClient, ObjectId } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-const URI =
-  'mongodb+srv://user-nineria:8PP7NdR6DPD80Gu9@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority';
+const URI = process.env.MONGO_URI;
 
 export default async function handler(
   req: NextApiRequest,
