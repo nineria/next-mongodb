@@ -1,8 +1,10 @@
-import { Container } from '@chakra-ui/react';
-import { MongoClient } from 'mongodb';
+import { Button, Center, Container, Heading, Stack } from '@chakra-ui/react';
+// import { MongoClient } from 'mongodb';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import MeetupList from '../components/meetup/MeetupList';
+import Pagination from '../components/Pagination';
 
 interface meetupPropsType {
   meetups: {
@@ -12,9 +14,24 @@ interface meetupPropsType {
     description: string;
     createdAt: string;
   };
+  size?: number;
+  error?: boolean;
 }
 
 const HomePage: NextPage = (props: meetupPropsType) => {
+  const router = useRouter();
+  if (props.error)
+    return (
+      <Center>
+        <Stack>
+          <Heading my={10}>404 Page not found.</Heading>
+          <Center>
+            <Button onClick={() => router.push('/')}>Home page</Button>
+          </Center>
+        </Stack>
+      </Center>
+    );
+
   return (
     <>
       <Container maxW='container.sm'>
@@ -25,35 +42,50 @@ const HomePage: NextPage = (props: meetupPropsType) => {
         </Head>
 
         <MeetupList meetups={props.meetups} />
+        <Pagination size={props.size} />
       </Container>
     </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  // fetch data from api
-  const client = await MongoClient.connect(
-    'mongodb+srv://user-nineria:tUh1mj8hmOQLAM1N@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority'
-  );
+export const getServerSideProps: GetServerSideProps = async (resolvedUrl) => {
+  // const URI =
+  //   'mongodb+srv://user-nineria:8PP7NdR6DPD80Gu9@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority';
 
-  const db = client.db();
-  const meetupsCollection = db.collection('meetups');
+  // // fetch data from api
+  // const client = await MongoClient.connect(URI);
 
-  const meetups = await meetupsCollection.find().toArray();
+  // const db = client.db();
+  // const meetupsCollection = db.collection('meetups');
 
-  client.close();
+  // const meetups = await meetupsCollection.find().toArray();
 
-  return {
-    props: {
-      meetups: meetups.map((meetup) => ({
-        id: meetup._id.toString(),
-        title: meetup.title,
-        image: meetup.image,
-        description: meetup.description,
-        createdAt: parseFloat(meetup.createdAt),
-      })),
-    },
-  };
+  // client.close();
+
+  try {
+    const res = await fetch(
+      `http://localhost:3005/meetups${resolvedUrl.resolvedUrl}`
+    );
+    const resSize = await fetch('http://localhost:3005/meetups/size');
+
+    const data = await res.json();
+    const size = await resSize.json();
+
+    return {
+      props: {
+        meetups: data.map((meetup) => ({
+          id: meetup._id.toString(),
+          title: meetup.title,
+          image: meetup.image,
+          description: meetup.description,
+          createdAt: parseFloat(meetup.createdAt),
+        })),
+        size: size.size,
+      },
+    };
+  } catch (error) {
+    return { props: { error: true } };
+  }
 };
 
 // export const getStaticProps: GetStaticProps = async () => {
