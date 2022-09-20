@@ -12,12 +12,12 @@ export default function Main({ children, router }) {
         <meta name='description' content='Next.js and MongoDB' />
         <meta name='author' content='Nineria' />
         <meta name='author' content='Nineria' />
-        <link rel='apple-touch-icon' href='apple-touch-icon.png' />
-        <link
+        {/* <link rel='apple-touch-icon' href='apple-touch-icon.png' /> */}
+        {/* <link
           rel='shortcut icon'
           href='/apple-touch-icon.png'
           type='image/x-icon'
-        />
+        /> */}
         <meta name='twitter:title' content='Next.js and MongoDB' />
         <meta name='twitter:card' content='summary_large_image' />
         <meta name='twitter:site' content='@nineria' />
