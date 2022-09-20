@@ -1,4 +1,3 @@
-import { MongoClient, ObjectId } from 'mongodb';
 import { GetStaticProps, NextPage } from 'next';
 import React from 'react';
 import MeetupDetail from '../../components/meetup/MeetupDetail';
@@ -28,55 +27,73 @@ const MeetupDetails: NextPage = (props: meetupPropsType) => {
 };
 
 export async function getStaticPaths() {
-  const URI =
-    'mongodb+srv://user-nineria:8PP7NdR6DPD80Gu9@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority';
+  // const URI = process.env.MONGO_URI;
 
-  const client = await MongoClient.connect(URI);
+  // const client = await MongoClient.connect(URI);
 
-  const db = client.db();
-  const meetupsCollection = db.collection('meetups');
+  // const db = client.db();
+  // const meetupsCollection = db.collection('meetups');
 
-  // @ts-ignore
-  const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray(); // fetch only _id
+  // // @ts-ignore
+  // const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray(); // fetch only _id
 
-  client.close();
+  // client.close();
 
-  return {
-    fallback: 'blocking',
-    paths: meetups.map((meetup) => ({
-      params: {
-        meetupId: meetup._id.toString(),
-      },
-    })),
-  };
+  // return {
+  //   fallback: 'blocking',
+  //   paths: meetups.map((meetup) => ({
+  //     params: {
+  //       meetupId: meetup._id.toString(),
+  //     },
+  //   })),
+  // };
+  try {
+    const res = await fetch(`http://localhost:3005/meetups`);
+
+    const meetups = await res.json();
+
+    return {
+      fallback: 'blocking',
+      paths: meetups.map((meetup) => ({
+        params: {
+          meetupId: meetup._id.toString(),
+        },
+      })),
+    };
+  } catch (error) {
+    return { props: { error: true } };
+  }
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const URI =
-    'mongodb+srv://user-nineria:8PP7NdR6DPD80Gu9@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority';
+  const res = await fetch(
+    `http://localhost:3005/meetups/${context.params.meetupId}`
+  );
 
-  const meetupId = context.params.meetupId;
+  const meetups = await res.json();
 
-  const client = await MongoClient.connect(URI);
+  // const meetupId = context.params.meetupId;
 
-  const db = client.db();
-  const meetupsCollection = db.collection('meetups');
+  // const client = await MongoClient.connect(URI);
 
-  const selectedMeetup = await meetupsCollection.findOne({
-    // @ts-ignore
-    _id: ObjectId(meetupId),
-  });
+  // const db = client.db();
+  // const meetupsCollection = db.collection('meetups');
 
-  client.close();
+  // const selectedMeetup = await meetupsCollection.findOne({
+  //   // @ts-ignore
+  //   _id: ObjectId(meetupId),
+  // });
+
+  // client.close();
 
   return {
     props: {
       meetupData: {
-        id: selectedMeetup._id.toString(),
-        title: selectedMeetup.title,
-        image: selectedMeetup.image,
-        description: selectedMeetup.description,
-        createdAt: parseFloat(selectedMeetup.createdAt),
+        id: meetups._id.toString(),
+        title: meetups.title,
+        image: meetups.image,
+        description: meetups.description,
+        createdAt: parseFloat(meetups.createdAt),
       },
     },
   };
