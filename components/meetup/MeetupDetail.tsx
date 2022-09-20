@@ -84,9 +84,16 @@ function ButtonDeleteModal({ id }) {
   const deleteHandler = async () => {
     setLoading(true);
     try {
-      await fetch('/api/new-meetup', {
+      // await fetch('/api/new-meetup', {
+      //   method: 'DELETE',
+      //   body: JSON.stringify({ _id: id }),
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      // });
+
+      await fetch(`http://localhost:3005/meetups/${id}`, {
         method: 'DELETE',
-        body: JSON.stringify({ _id: id }),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -94,7 +101,7 @@ function ButtonDeleteModal({ id }) {
 
       toast({
         title: 'Post deleted.',
-        status: 'success',
+        status: 'error',
         duration: 9000,
         isClosable: true,
       });
@@ -178,8 +185,6 @@ function ButtonUpdateModal({ props }) {
       });
 
       const data = await response.json();
-
-      console.log(data);
 
       toast({
         title: 'Post updated.',
