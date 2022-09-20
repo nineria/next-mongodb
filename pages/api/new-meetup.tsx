@@ -2,14 +2,15 @@
 import { MongoClient, ObjectId } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 
+const URI =
+  'mongodb+srv://user-nineria:8PP7NdR6DPD80Gu9@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority';
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const data = req.body;
-  const client = await MongoClient.connect(
-    'mongodb+srv://user-nineria:tUh1mj8hmOQLAM1N@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority'
-  );
+  const client = await MongoClient.connect(URI);
 
   const db = client.db();
 
@@ -31,8 +32,6 @@ export default async function handler(
 
     case 'PUT':
       try {
-        console.log(req.body);
-
         // @ts-ignore
         const filter = { _id: ObjectId(req.body.id) };
         const options = { upsert: false };
