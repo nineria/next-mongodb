@@ -28,9 +28,10 @@ const MeetupDetails: NextPage = (props: meetupPropsType) => {
 };
 
 export async function getStaticPaths() {
-  const client = await MongoClient.connect(
-    'mongodb+srv://user-nineria:tUh1mj8hmOQLAM1N@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority'
-  );
+  const URI =
+    'mongodb+srv://user-nineria:8PP7NdR6DPD80Gu9@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority';
+
+  const client = await MongoClient.connect(URI);
 
   const db = client.db();
   const meetupsCollection = db.collection('meetups');
@@ -51,11 +52,12 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  const URI =
+    'mongodb+srv://user-nineria:8PP7NdR6DPD80Gu9@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority';
+
   const meetupId = context.params.meetupId;
 
-  const client = await MongoClient.connect(
-    'mongodb+srv://user-nineria:tUh1mj8hmOQLAM1N@cluster0.y5ii0.mongodb.net/meetups?retryWrites=true&w=majority'
-  );
+  const client = await MongoClient.connect(URI);
 
   const db = client.db();
   const meetupsCollection = db.collection('meetups');
